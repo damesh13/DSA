@@ -1,4 +1,4 @@
-#Here we aregoing to perform simple linear search where everything including elements will be taken from ser only
+#Here we aregoing to perform simple linear search where everything including elements will be taken from user only
 #creating a function called LInear search which helps us to find the element
 #if we found the element the function return the index value else it will return -1 which means we didn't find the element
 def Linear_search(a,key):

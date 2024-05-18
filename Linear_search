@@ -1,0 +1,42 @@
+//This is a simple Linear search code 
+//including header files into our program 
+#include <iostream>
+
+// Function to perform linear search
+int Linear_search(int a[], int size, int key) {
+    for (int i = 0; i < size; ++i) {
+        if (a[i] == key) {
+            return i; // Return the index if the key is found
+        }
+    }
+    return -1; // Return -1 if key is not found
+}
+
+int main() {
+    int size;
+    //asking for size of the array
+    std::cout << "Enter the size of the array: ";
+    std::cin >> size;
+
+    int array[size];
+    //To get values from the user 
+    std::cout << "Enter the elements of the array: ";
+    for (int i = 0; i < size; ++i) {
+        std::cin >> array[i];
+    }
+
+    int key;
+    //TO get key value from the user 
+    std::cout << "Enter the key to search for: ";
+    std::cin >> key;
+
+    int result = Linear_search(array, size, key);
+
+    if (result != -1) {
+        std::cout << "Element found at index: " << result << std::endl;
+    } else {
+        std::cout << "Element not found in the array" << std::endl;
+    }
+
+    return 0;
+}

@@ -1,0 +1,25 @@
+#Here we aregoing to perform simple linear search where everything including elements will be taken from ser only
+#creating a function called LInear search which helps us to find the element
+#if we found the element the function return the index value else it will return -1 which means we didn't find the element
+def Linear_search(a,key):
+    i=0
+    while i < len(a):
+        if a[i] ==key:
+            return i
+            exit()
+        else :
+            i+=1
+
+    return -1
+#taking the values from the user
+a=input("enter the list of elements with spaces").split()
+#inserting values into array
+a=[int(i) for i in a]
+#printing elements in the array
+print(a)
+key=int(input("enter the key value to find "))
+result=Linear_search(a,key)
+if result >= 0:
+    print(f"we found the element at {result} index ")
+else:
+    print(f"element not found ")

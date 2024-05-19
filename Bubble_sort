@@ -1,0 +1,12 @@
+def Bubble(a):
+    n = len(a)
+    for i in range(n):
+        for j in range(0, n-i-1):
+            if a[j] > a[j+1]:
+                a[j], a[j+1] = a[j+1], a[j]
+    return a
+
+a = input("Enter the array elements: ").split()
+a = [int(i) for i in a]
+a = Bubble(a)
+print(f"After sorting, the new array is {a}")

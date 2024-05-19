@@ -1,0 +1,35 @@
+import java.util.Scanner;
+
+public class BubbleSort {
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        System.out.print("Enter the array elements: ");
+        String input = s.nextLine();
+        String[] inputArray = input.split(" ");
+        int[] a = new int[inputArray.length];
+
+        for (int i = 0; i < inputArray.length; i++) {
+            a[i] = Integer.parseInt(inputArray[i]);
+        }
+
+        bubbleSort(a);
+
+        System.out.print("After sorting, the new array is: ");
+        for (int num : a) {
+            System.out.print(num + " ");
+        }
+    }
+
+    public static void bubbleSort(int[] a) {
+        int n = a.length;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (a[j] > a[j + 1]) {
+                    int temp = a[j];
+                    a[j] = a[j + 1];
+                    a[j + 1] = temp;
+                }
+            }
+        }
+    }
+}

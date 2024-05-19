@@ -1,0 +1,30 @@
+#simple Binary search program 
+#creating a functionn call Binary_search 
+def Binary_search(a, si, li, val):# si=starting index ,li=last index,val=key value 
+    pos = -1
+    while si <= li:
+        mid = (si + li) // 2  # Ensure mid is an integer
+        if a[mid] == val:
+            pos = mid
+            return pos
+        elif a[mid] > val:
+            li = mid - 1
+        else:
+            si = mid + 1
+    return -1
+
+# array input from the user but in string formate 
+a = input("Enter the array elements with spaces: ").split() #converting into array 
+a = [int(i) for i in a]  # Convert each element to an integer
+
+# Read the value to search for
+val = int(input("Enter the key value: "))
+
+# Perform the binary search
+result = Binary_search(a, 0, len(a) - 1, val)
+
+# Output the result
+if result >= 0:
+    print(f"We found the element at index {result}.")
+else:
+    print("The element is not found in the array.")

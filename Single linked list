@@ -1,0 +1,161 @@
+class node:
+    def __init__(self, value):
+        self.data = value
+        self.next = None
+
+class SLL:
+    def __init__(self):
+        self.head = None
+
+    def Create(self, value):
+        newnode = node(value)
+        if self.head is None:
+            print("No List is Present So We are creating New list ")
+            self.head = newnode
+        else:
+            print("List is already created so inserting at the end of the list ")
+            temp = self.head
+            while temp.next is not None:
+                temp = temp.next
+            temp.next = newnode
+
+    def insert_at_beginning(self, value):
+        newnode = node(value)
+        if self.head is None:
+            print("No List is Present this is the first element")
+            self.head = newnode
+        else:
+            newnode.next = self.head
+            self.head = newnode
+            print("we inserted the element at the beginning ")
+
+    def insert_before(self, value, element):
+        newnode = node(value)
+        temp = self.head
+        if temp is None:
+            print("The list is empty, cannot insert before the element.")
+            return
+        if temp.data == element:
+            newnode.next = self.head
+            self.head = newnode
+            print(f"Inserted {value} before {element}.")
+            return
+        while temp.next is not None and temp.next.data != element:
+            temp = temp.next
+        if temp.next is None:
+            print("The element is not found, we can't insert the value.")
+        else:
+            newnode.next = temp.next
+            temp.next = newnode
+            print(f"Inserted {value} before {element}.")
+
+    def insert_after(self, value, element):
+        newnode = node(value)
+        temp = self.head
+        while temp is not None and temp.data != element:
+            temp = temp.next
+        if temp is None:
+            print("The element is not found, we can't insert the value.")
+        else:
+            newnode.next = temp.next
+            temp.next = newnode
+            print(f"Inserted {value} after {element}.")
+
+    def insert_at_end(self, value):
+        newnode = node(value)
+        if self.head is None:
+            self.head = newnode
+        else:
+            temp = self.head
+            while temp.next is not None:
+                temp = temp.next
+            temp.next = newnode
+            print(f"Inserted {value} at the end of the list.")
+
+    def Display(self):
+        temp = self.head
+        while temp is not None:
+            print(temp.data, end=" ")
+            temp = temp.next
+        print()
+
+    def delete_at_first(self):
+        if self.head is None:
+            print("The list is empty, nothing to delete.")
+        else:
+            self.head = self.head.next
+            print("First element deleted.")
+
+    def delete_at_specified(self, value):
+        temp = self.head
+        if temp is None:
+            print("The list is empty, nothing to delete.")
+            return
+        if temp.data == value:
+            self.head = self.head.next
+            print(f"Deleted {value} from the list.")
+            return
+        while temp.next is not None and temp.next.data != value:
+            temp = temp.next
+        if temp.next is None:
+            print("The element is not found, we can't delete the value.")
+        else:
+            temp.next = temp.next.next
+            print(f"Deleted {value} from the list.")
+
+    def delete_at_last(self):
+        if self.head is None:
+            print("The list is empty, nothing to delete.")
+        elif self.head.next is None:
+            self.head = None
+            print("Last element deleted.")
+        else:
+            temp = self.head
+            while temp.next.next is not None:
+                temp = temp.next
+            temp.next = None
+            print("Last element deleted.")
+
+    def find(self, value):
+        temp = self.head
+        while temp is not None:
+            if temp.data == value:
+                print(f"Element {value} found in the list.")
+                return
+            temp = temp.next
+        print(f"Element {value} not found in the list.")
+
+s = SLL()
+while True:
+    n = int(input(" 1.Create the List \n 2.To Insert at beginning \n 3.To Insert before an element \n 4.To Insert after an element \n 5.To Insert at end \n 6.To display the list \n 7.To Delete first element \n 8.To Delete specified element \n 9.To Delete last element \n 10.To find an element \n 11.exit \n"))
+    if n == 1:
+        value = int(input("Enter the element: "))
+        s.Create(value)
+    elif n == 2:
+        value = int(input("Enter the value to insert at beginning: "))
+        s.insert_at_beginning(value)
+    elif n == 3:
+        value = int(input("Enter the value to insert: "))
+        element = int(input("Enter the element before which to insert: "))
+        s.insert_before(value, element)
+    elif n == 4:
+        value = int(input("Enter the value to insert: "))
+        element = int(input("Enter the element after which to insert: "))
+        s.insert_after(value, element)
+    elif n == 5:
+        value = int(input("Enter the value to insert at end: "))
+        s.insert_at_end(value)
+    elif n == 6:
+        s.Display()
+    elif n == 7:
+        s.delete_at_first()
+    elif n == 8:
+        value = int(input("Enter the value to delete: "))
+        s.delete_at_specified(value)
+    elif n == 9:
+        s.delete_at_last()
+    elif n == 10:
+        value = int(input("Enter the value to find: "))
+        s.find(value)
+    elif n == 11:
+        exit()

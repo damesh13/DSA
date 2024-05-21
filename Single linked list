@@ -1,0 +1,229 @@
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+
+    Node(int value) {
+        data = value;
+        next = nullptr;
+    }
+};
+
+class SLL {
+public:
+    Node* head;
+
+    SLL() {
+        head = nullptr;
+    }
+
+    void create(int value) {
+        Node* newNode = new Node(value);
+        if (head == nullptr) {
+            cout << "No List is Present So We are creating New list " << endl;
+            head = newNode;
+        } else {
+            cout << "List is already created so inserting at the end of the list " << endl;
+            Node* temp = head;
+            while (temp->next != nullptr) {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+        }
+    }
+
+    void insertAtBeginning(int value) {
+        Node* newNode = new Node(value);
+        if (head == nullptr) {
+            cout << "No List is Present this is the first element" << endl;
+            head = newNode;
+        } else {
+            newNode->next = head;
+            head = newNode;
+            cout << "we inserted the element at the beginning " << endl;
+        }
+    }
+
+    void insertBefore(int value, int element) {
+        Node* newNode = new Node(value);
+        Node* temp = head;
+        if (temp == nullptr) {
+            cout << "The list is empty, cannot insert before the element." << endl;
+            return;
+        }
+        if (temp->data == element) {
+            newNode->next = head;
+            head = newNode;
+            cout << "Inserted " << value << " before " << element << "." << endl;
+            return;
+        }
+        while (temp->next != nullptr && temp->next->data != element) {
+            temp = temp->next;
+        }
+        if (temp->next == nullptr) {
+            cout << "The element is not found, we can't insert the value." << endl;
+        } else {
+            newNode->next = temp->next;
+            temp->next = newNode;
+            cout << "Inserted " << value << " before " << element << "." << endl;
+        }
+    }
+
+    void insertAfter(int value, int element) {
+        Node* newNode = new Node(value);
+        Node* temp = head;
+        while (temp != nullptr && temp->data != element) {
+            temp = temp->next;
+        }
+        if (temp == nullptr) {
+            cout << "The element is not found, we can't insert the value." << endl;
+        } else {
+            newNode->next = temp->next;
+            temp->next = newNode;
+            cout << "Inserted " << value << " after " << element << "." << endl;
+        }
+    }
+
+    void insertAtEnd(int value) {
+        Node* newNode = new Node(value);
+        if (head == nullptr) {
+            head = newNode;
+        } else {
+            Node* temp = head;
+            while (temp->next != nullptr) {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+            cout << "Inserted " << value << " at the end of the list." << endl;
+        }
+    }
+
+    void display() {
+        Node* temp = head;
+        while (temp != nullptr) {
+            cout << temp->data << " ";
+            temp = temp->next;
+        }
+        cout << endl;
+    }
+
+    void deleteAtFirst() {
+        if (head == nullptr) {
+            cout << "The list is empty, nothing to delete." << endl;
+        } else {
+            head = head->next;
+            cout << "First element deleted." << endl;
+        }
+    }
+
+    void deleteAtSpecified(int value) {
+        Node* temp = head;
+        if (temp == nullptr) {
+            cout << "The list is empty, nothing to delete." << endl;
+            return;
+        }
+        if (temp->data == value) {
+            head = head->next;
+            cout << "Deleted " << value << " from the list." << endl;
+            return;
+        }
+        while (temp->next != nullptr && temp->next->data != value) {
+            temp = temp->next;
+        }
+        if (temp->next == nullptr) {
+            cout << "The element is not found, we can't delete the value." << endl;
+        } else {
+            temp->next = temp->next->next;
+            cout << "Deleted " << value << " from the list." << endl;
+        }
+    }
+
+    void deleteAtLast() {
+        if (head == nullptr) {
+            cout << "The list is empty, nothing to delete." << endl;
+        } else if (head->next == nullptr) {
+            head = nullptr;
+            cout << "Last element deleted." << endl;
+        } else {
+            Node* temp = head;
+            while (temp->next->next != nullptr) {
+                temp = temp->next;
+            }
+            temp->next = nullptr;
+            cout << "Last element deleted." << endl;
+        }
+    }
+
+    void find(int value) {
+        Node* temp = head;
+        while (temp != nullptr) {
+            if (temp->data == value) {
+                cout << "Element " << value << " found in the list." << endl;
+                return;
+            }
+            temp = temp->next;
+        }
+        cout << "Element " << value << " not found in the list." << endl;
+    }
+};
+
+int main() {
+    SLL s;
+    while (true) {
+        int n;
+        cout << "1.Create the List \n2.To Insert at beginning \n3.To Insert before an element \n4.To Insert after an element \n5.To Insert at end \n6.To display the list \n7.To Delete first element \n8.To Delete specified element \n9.To Delete last element \n10.To find an element \n11.exit" << endl;
+        cin >> n;
+        if (n == 1) {
+            int value;
+            cout << "Enter the element: ";
+            cin >> value;
+            s.create(value);
+        } else if (n == 2) {
+            int value;
+            cout << "Enter the value to insert at beginning: ";
+            cin >> value;
+            s.insertAtBeginning(value);
+        } else if (n == 3) {
+            int value, element;
+            cout << "Enter the value to insert: ";
+            cin >> value;
+            cout << "Enter the element before which to insert: ";
+            cin >> element;
+            s.insertBefore(value, element);
+        } else if (n == 4) {
+            int value, element;
+            cout << "Enter the value to insert: ";
+            cin >> value;
+            cout << "Enter the element after which to insert: ";
+            cin >> element;
+            s.insertAfter(value, element);
+        } else if (n == 5) {
+            int value;
+            cout << "Enter the value to insert at end: ";
+            cin >> value;
+            s.insertAtEnd(value);
+        } else if (n == 6) {
+            s.display();
+        } else if (n == 7) {
+            s.deleteAtFirst();
+        } else if (n == 8) {
+            int value;
+            cout << "Enter the value to delete: ";
+            cin >> value;
+            s.deleteAtSpecified(value);
+        } else if (n == 9) {
+            s.deleteAtLast();
+        } else if (n == 10) {
+            int value;
+            cout << "Enter the value to find: ";
+            cin >> value;
+            s.find(value);
+        } else if (n == 11) {
+            break;
+        }
+    }
+    return 0;
+}

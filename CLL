@@ -1,0 +1,286 @@
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+
+    Node(int value) {
+        data = value;
+        next = nullptr;
+    }
+};
+
+class CLL {
+public:
+    Node* head;
+
+    CLL() {
+        head = nullptr;
+    }
+
+    void create(int value) {
+        Node* newNode = new Node(value);
+        if (head == nullptr) {
+            head = newNode;
+            newNode->next = head;
+        } else {
+            Node* temp = head;
+            while (temp->next != head) {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+            newNode->next = head;
+        }
+    }
+
+    void insertAtBeginning(int value) {
+        Node* newNode = new Node(value);
+        if (head == nullptr) {
+            head = newNode;
+            newNode->next = head;
+        } else {
+            Node* temp = head;
+            while (temp->next != head) {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+            newNode->next = head;
+            head = newNode;
+        }
+    }
+
+    void insertBefore(int value, int element) {
+        if (head == nullptr) {
+            cout << "The list is empty." << endl;
+            return;
+        }
+
+        Node* newNode = new Node(value);
+        Node* temp = head;
+
+        if (head->data == element) {
+            while (temp->next != head) {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+            newNode->next = head;
+            head = newNode;
+            return;
+        }
+
+        Node* prev = nullptr;
+        while (temp->next != head && temp->data != element) {
+            prev = temp;
+            temp = temp->next;
+        }
+
+        if (temp->data == element) {
+            prev->next = newNode;
+            newNode->next = temp;
+        } else {
+            cout << "Element not found." << endl;
+        }
+    }
+
+    void insertAfter(int value, int element) {
+        if (head == nullptr) {
+            cout << "The list is empty." << endl;
+            return;
+        }
+
+        Node* newNode = new Node(value);
+        Node* temp = head;
+        while (temp->next != head && temp->data != element) {
+            temp = temp->next;
+        }
+
+        if (temp->data == element) {
+            newNode->next = temp->next;
+            temp->next = newNode;
+        } else {
+            cout << "Element not found." << endl;
+        }
+    }
+
+    void insertAtEnd(int value) {
+        Node* newNode = new Node(value);
+        if (head == nullptr) {
+            head = newNode;
+            newNode->next = head;
+        } else {
+            Node* temp = head;
+            while (temp->next != head) {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+            newNode->next = head;
+        }
+    }
+
+    void deleteAtFirst() {
+        if (head == nullptr) {
+            cout << "The list is empty." << endl;
+            return;
+        }
+
+        if (head->next == head) {
+            head = nullptr;
+        } else {
+            Node* temp = head;
+            while (temp->next != head) {
+                temp = temp->next;
+            }
+            temp->next = head->next;
+            head = temp->next;
+        }
+    }
+
+    void deleteAtSpecified(int value) {
+        if (head == nullptr) {
+            cout << "The list is empty." << endl;
+            return;
+        }
+
+        if (head->data == value && head->next == head) {
+            head = nullptr;
+            return;
+        }
+
+        Node* temp = head;
+        Node* prev = nullptr;
+        while (temp->next != head && temp->data != value) {
+            prev = temp;
+            temp = temp->next;
+        }
+
+        if (temp->data == value) {
+            if (temp == head) {
+                while (temp->next != head) {
+                    temp = temp->next;
+                }
+                temp->next = head->next;
+                head = head->next;
+            } else {
+                prev->next = temp->next;
+            }
+        } else {
+            cout << "Element not found." << endl;
+        }
+    }
+
+    void deleteAtLast() {
+        if (head == nullptr) {
+            cout << "The list is empty." << endl;
+            return;
+        }
+
+        if (head->next == head) {
+            head = nullptr;
+            return;
+        }
+
+        Node* temp = head;
+        Node* prev = nullptr;
+        while (temp->next != head) {
+            prev = temp;
+            temp = temp->next;
+        }
+        prev->next = head;
+    }
+
+    bool find(int value) {
+        if (head == nullptr) {
+            cout << "The list is empty." << endl;
+            return false;
+        }
+
+        Node* temp = head;
+        do {
+            if (temp->data == value) {
+                return true;
+            }
+            temp = temp->next;
+        } while (temp != head);
+        return false;
+    }
+
+    void display() {
+        if (head == nullptr) {
+            cout << "The list is empty." << endl;
+            return;
+        }
+        Node* temp = head;
+        do {
+            cout << temp->data << " ";
+            temp = temp->next;
+        } while (temp != head);
+        cout << endl;
+    }
+};
+
+int main() {
+    CLL cll;
+    int choice, value, element;
+    while (true) {
+        cout << "1. Create the list \n2. Insert at beginning \n3. Insert before element \n4. Insert after element \n5. Insert at end \n6. Display the list \n7. Delete first element \n8. Delete specified element \n9. Delete last element \n10. Find element \n11. Exit" << endl;
+        cin >> choice;
+        switch (choice) {
+            case 1:
+                cout << "Enter the element: ";
+                cin >> value;
+                cll.create(value);
+                break;
+            case 2:
+                cout << "Enter the value to insert at beginning: ";
+                cin >> value;
+                cll.insertAtBeginning(value);
+                break;
+            case 3:
+                cout << "Enter the value to insert: ";
+                cin >> value;
+                cout << "Enter the element before which to insert: ";
+                cin >> element;
+                cll.insertBefore(value, element);
+                break;
+            case 4:
+                cout << "Enter the value to insert: ";
+                cin >> value;
+                cout << "Enter the element after which to insert: ";
+                cin >> element;
+                cll.insertAfter(value, element);
+                break;
+            case 5:
+                cout << "Enter the value to insert at end: ";
+                cin >> value;
+                cll.insertAtEnd(value);
+                break;
+            case 6:
+                cll.display();
+                break;
+            case 7:
+                cll.deleteAtFirst();
+                break;
+            case 8:
+                cout << "Enter the value to delete: ";
+                cin >> value;
+                cll.deleteAtSpecified(value);
+                break;
+            case 9:
+                cll.deleteAtLast();
+                break;
+            case 10:
+                cout << "Enter the value to find: ";
+                cin >> value;
+                if (cll.find(value)) {
+                    cout << "Element found." << endl;
+                } else {
+                    cout << "Element not found." << endl;
+                }
+                break;
+            case 11:
+                return 0;
+        }
+    }
+}

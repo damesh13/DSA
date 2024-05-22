@@ -1,0 +1,178 @@
+class Node:
+    def __init__(self, value):
+        self.data = value
+        self.next = None
+        self.prev = None
+
+class DLL:
+    def __init__(self):
+        self.head = None
+
+    def create(self, value):
+        new_node = Node(value)
+        if self.head is None:
+            self.head = new_node
+        else:
+            temp = self.head
+            while temp.next:
+                temp = temp.next
+            temp.next = new_node
+            new_node.prev = temp
+
+    def insert_at_beginning(self, value):
+        new_node = Node(value)
+        if self.head is None:
+            self.head = new_node
+        else:
+            new_node.next = self.head
+            self.head.prev = new_node
+            self.head = new_node
+
+    def insert_before(self, value, element):
+        if self.head is None:
+            print("The list is empty.")
+            return
+
+        new_node = Node(value)
+        temp = self.head
+
+        while temp and temp.data != element:
+            temp = temp.next
+
+        if temp is None:
+            print("Element not found.")
+        else:
+            new_node.next = temp
+            new_node.prev = temp.prev
+            if temp.prev:
+                temp.prev.next = new_node
+            else:
+                self.head = new_node
+            temp.prev = new_node
+
+    def insert_after(self, value, element):
+        if self.head is None:
+            print("The list is empty.")
+            return
+
+        new_node = Node(value)
+        temp = self.head
+
+        while temp and temp.data != element:
+            temp = temp.next
+
+        if temp is None:
+            print("Element not found.")
+        else:
+            new_node.next = temp.next
+            new_node.prev = temp
+            if temp.next:
+                temp.next.prev = new_node
+            temp.next = new_node
+
+    def insert_at_end(self, value):
+        new_node = Node(value)
+        if self.head is None:
+            self.head = new_node
+        else:
+            temp = self.head
+            while temp.next:
+                temp = temp.next
+            temp.next = new_node
+            new_node.prev = temp
+
+    def delete_at_first(self):
+        if self.head is None:
+            print("The list is empty.")
+        else:
+            self.head = self.head.next
+            if self.head:
+                self.head.prev = None
+
+    def delete_at_specified(self, value):
+        if self.head is None:
+            print("The list is empty.")
+            return
+
+        temp = self.head
+
+        while temp and temp.data != value:
+            temp = temp.next
+
+        if temp is None:
+            print("Element not found.")
+        else:
+            if temp.prev:
+                temp.prev.next = temp.next
+            else:
+                self.head = temp.next
+
+            if temp.next:
+                temp.next.prev = temp.prev
+
+    def delete_at_last(self):
+        if self.head is None:
+            print("The list is empty.")
+        else:
+            temp = self.head
+            while temp.next:
+                temp = temp.next
+            if temp.prev:
+                temp.prev.next = None
+            else:
+                self.head = None
+
+    def find(self, value):
+        temp = self.head
+        while temp:
+            if temp.data == value:
+                return True
+            temp = temp.next
+        return False
+
+    def display(self):
+        temp = self.head
+        while temp:
+            print(temp.data, end=" ")
+            temp = temp.next
+        print()
+
+if __name__ == "__main__":
+    dll = DLL()
+    while True:
+        print("1. Create the list \n2. Insert at beginning \n3. Insert before element \n4. Insert after element \n5. Insert at end \n6. Display the list \n7. Delete first element \n8. Delete specified element \n9. Delete last element \n10. Find element \n11. Exit")
+        choice = int(input())
+        if choice == 1:
+            value = int(input("Enter the element: "))
+            dll.create(value)
+        elif choice == 2:
+            value = int(input("Enter the value to insert at beginning: "))
+            dll.insert_at_beginning(value)
+        elif choice == 3:
+            value = int(input("Enter the value to insert: "))
+            element = int(input("Enter the element before which to insert: "))
+            dll.insert_before(value, element)
+        elif choice == 4:
+            value = int(input("Enter the value to insert: "))
+            element = int(input("Enter the element after which to insert: "))
+            dll.insert_after(value, element)
+        elif choice == 5:
+            value = int(input("Enter the value to insert at end: "))
+            dll.insert_at_end(value)
+        elif choice == 6:
+            dll.display()
+        elif choice == 7:
+            dll.delete_at_first()
+        elif choice == 8:
+            value = int(input("Enter the value to delete: "))
+            dll.delete_at_specified(value)
+        elif choice == 9:
+            dll.delete_at_last()
+        elif choice == 10:
+            value = int(input("Enter the value to find: "))
+            if dll.find(value):
+                print("Element found.")
+            else:
+                print("Element not found.")
+        elif choice == 11:
+            break

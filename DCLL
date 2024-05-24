@@ -1,0 +1,242 @@
+import java.util.Scanner;
+
+class Node {
+    int data;
+    Node next;
+    Node prev;
+
+    Node(int value) {
+        data = value;
+        next = null;
+        prev = null;
+    }
+}
+
+class DCLL {
+    Node head;
+
+    DCLL() {
+        head = null;
+    }
+
+    void insertAtBeginning(int value) {
+        Node newNode = new Node(value);
+        if (head == null) {
+            head = newNode;
+            head.next = head;
+            head.prev = head;
+        } else {
+            Node tail = head.prev;
+            newNode.next = head;
+            newNode.prev = tail;
+            tail.next = newNode;
+            head.prev = newNode;
+            head = newNode;
+        }
+    }
+
+    void insertAtEnd(int value) {
+        Node newNode = new Node(value);
+        if (head == null) {
+            head = newNode;
+            head.next = head;
+            head.prev = head;
+        } else {
+            Node tail = head.prev;
+            newNode.next = head;
+            newNode.prev = tail;
+            tail.next = newNode;
+            head.prev = newNode;
+        }
+    }
+
+    void insertBefore(int value, int element) {
+        if (head == null) {
+            System.out.println("The list is empty.");
+            return;
+        }
+        Node newNode = new Node(value);
+        Node temp = head;
+        do {
+            if (temp.data == element) {
+                newNode.next = temp;
+                newNode.prev = temp.prev;
+                temp.prev.next = newNode;
+                temp.prev = newNode;
+                if (temp == head) {
+                    head = newNode;
+                }
+                return;
+            }
+            temp = temp.next;
+        } while (temp != head);
+        System.out.println("Element not found.");
+    }
+
+    void insertAfter(int value, int element) {
+        if (head == null) {
+            System.out.println("The list is empty.");
+            return;
+        }
+        Node newNode = new Node(value);
+        Node temp = head;
+        do {
+            if (temp.data == element) {
+                newNode.next = temp.next;
+                newNode.prev = temp;
+                temp.next.prev = newNode;
+                temp.next = newNode;
+                return;
+            }
+            temp = temp.next;
+        } while (temp != head);
+        System.out.println("Element not found.");
+    }
+
+    void deleteAtBeginning() {
+        if (head == null) return;
+        if (head.next == head) {
+            head = null;
+        } else {
+            Node tail = head.prev;
+            head = head.next;
+            head.prev = tail;
+            tail.next = head;
+        }
+    }
+
+    void deleteAtEnd() {
+        if (head == null) return;
+        if (head.next == head) {
+            head = null;
+        } else {
+            Node tail = head.prev;
+            tail.prev.next = head;
+            head.prev = tail.prev;
+        }
+    }
+
+    void deleteAtSpecified(int value) {
+        if (head == null) {
+            System.out.println("The list is empty.");
+            return;
+        }
+        Node temp = head;
+        do {
+            if (temp.data == value) {
+                temp.prev.next = temp.next;
+                temp.next.prev = temp.prev;
+                if (temp == head) {
+                    head = temp.next;
+                }
+                return;
+            }
+            temp = temp.next;
+        } while (temp != head);
+        System.out.println("Element not found.");
+    }
+
+    boolean find(int value) {
+        if (head == null) return false;
+        Node temp = head;
+        do {
+            if (temp.data == value) {
+                return true;
+            }
+            temp = temp.next;
+        } while (temp != head);
+        return false;
+    }
+
+    void displayForward() {
+        if (head == null) {
+            System.out.println("List is empty");
+            return;
+        }
+        Node temp = head;
+        do {
+            System.out.print(temp.data + " ");
+            temp = temp.next;
+        } while (temp != head);
+        System.out.println();
+    }
+
+    void displayBackward() {
+        if (head == null) {
+            System.out.println("List is empty");
+            return;
+        }
+        Node temp = head.prev;
+        do {
+            System.out.print(temp.data + " ");
+            temp = temp.prev;
+        } while (temp.next != head.prev);
+        System.out.println();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        DCLL dcll = new DCLL();
+        Scanner s = new Scanner(System.in);
+        while (true) {
+            System.out.println("1. Insert at beginning \n2. Insert at end \n3. Insert before element \n4. Insert after element \n5. Delete first element \n6. Delete last element \n7. Delete specified element \n8. Display forward \n9. Display backward \n10. Find element \n11. Exit");
+            int choice = s.nextInt();
+            int value, element;
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter the value to insert at beginning: ");
+                    value = s.nextInt();
+                    dcll.insertAtBeginning(value);
+                    break;
+                case 2:
+                    System.out.print("Enter the value to insert at end: ");
+                    value = s.nextInt();
+                    dcll.insertAtEnd(value);
+                    break;
+                case 3:
+                    System.out.print("Enter the value to insert: ");
+                    value = s.nextInt();
+                    System.out.print("Enter the element before which to insert: ");
+                    element = s.nextInt();
+                    dcll.insertBefore(value, element);
+                    break;
+                case 4:
+                    System.out.print("Enter the value to insert: ");
+                    value = s.nextInt();
+                    System.out.print("Enter the element after which to insert: ");
+                    element = s.nextInt();
+                    dcll.insertAfter(value, element);
+                    break;
+                case 5:
+                    dcll.deleteAtBeginning();
+                    break;
+                case 6:
+                    dcll.deleteAtEnd();
+                    break;
+                case 7:
+                    System.out.print("Enter the value to delete: ");
+                    value = s.nextInt();
+                    dcll.deleteAtSpecified(value);
+                    break;
+                case 8:
+                    dcll.displayForward();
+                    break;
+                case 9:
+                    dcll.displayBackward();
+                    break;
+                case 10:
+                    System.out.print("Enter the value to find: ");
+                    value = s.nextInt();
+                    if (dcll.find(value)) {
+                        System.out.println("Element found.");
+                    } else {
+                        System.out.println("Element not found.");
+                    }
+                    break;
+                case 11:
+                    return;
+            }
+        }
+    }
+}

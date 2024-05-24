@@ -1,0 +1,242 @@
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+    Node* prev;
+
+    Node(int value) {
+        data = value;
+        next = nullptr;
+        prev = nullptr;
+    }
+};
+
+class DCLL {
+public:
+    Node* head;
+
+    DCLL() {
+        head = nullptr;
+    }
+
+    void insertAtBeginning(int value) {
+        Node* newNode = new Node(value);
+        if (head == nullptr) {
+            head = newNode;
+            head->next = head;
+            head->prev = head;
+        } else {
+            Node* tail = head->prev;
+            newNode->next = head;
+            newNode->prev = tail;
+            tail->next = newNode;
+            head->prev = newNode;
+            head = newNode;
+        }
+    }
+
+    void insertAtEnd(int value) {
+        Node* newNode = new Node(value);
+        if (head == nullptr) {
+            head = newNode;
+            head->next = head;
+            head->prev = head;
+        } else {
+            Node* tail = head->prev;
+            newNode->next = head;
+            newNode->prev = tail;
+            tail->next = newNode;
+            head->prev = newNode;
+        }
+    }
+
+    void insertBefore(int value, int element) {
+        if (head == nullptr) {
+            cout << "The list is empty." << endl;
+            return;
+        }
+        Node* newNode = new Node(value);
+        Node* temp = head;
+        do {
+            if (temp->data == element) {
+                newNode->next = temp;
+                newNode->prev = temp->prev;
+                temp->prev->next = newNode;
+                temp->prev = newNode;
+                if (temp == head) {
+                    head = newNode;
+                }
+                return;
+            }
+            temp = temp->next;
+        } while (temp != head);
+        cout << "Element not found." << endl;
+    }
+
+    void insertAfter(int value, int element) {
+        if (head == nullptr) {
+            cout << "The list is empty." << endl;
+            return;
+        }
+        Node* newNode = new Node(value);
+        Node* temp = head;
+        do {
+            if (temp->data == element) {
+                newNode->next = temp->next;
+                newNode->prev = temp;
+                temp->next->prev = newNode;
+                temp->next = newNode;
+                return;
+            }
+            temp = temp->next;
+        } while (temp != head);
+        cout << "Element not found." << endl;
+    }
+
+    void deleteAtBeginning() {
+        if (head == nullptr) return;
+        if (head->next == head) {
+            head = nullptr;
+        } else {
+            Node* tail = head->prev;
+            head = head->next;
+            head->prev = tail;
+            tail->next = head;
+        }
+    }
+
+    void deleteAtEnd() {
+        if (head == nullptr) return;
+        if (head->next == head) {
+            head = nullptr;
+        } else {
+            Node* tail = head->prev;
+            tail->prev->next = head;
+            head->prev = tail->prev;
+        }
+    }
+
+    void deleteAtSpecified(int value) {
+        if (head == nullptr) {
+            cout << "The list is empty." << endl;
+            return;
+        }
+        Node* temp = head;
+        do {
+            if (temp->data == value) {
+                temp->prev->next = temp->next;
+                temp->next->prev = temp->prev;
+                if (temp == head) {
+                    head = temp->next;
+                }
+                return;
+            }
+            temp = temp->next;
+        } while (temp != head);
+        cout << "Element not found." << endl;
+    }
+
+    bool find(int value) {
+        if (head == nullptr) return false;
+        Node* temp = head;
+        do {
+            if (temp->data == value) {
+                return true;
+            }
+            temp = temp->next;
+        } while (temp != head);
+        return false;
+    }
+
+    void displayForward() {
+        if (head == nullptr) {
+            cout << "List is empty" << endl;
+            return;
+        }
+        Node* temp = head;
+        do {
+            cout << temp->data << " ";
+            temp = temp->next;
+        } while (temp != head);
+        cout << endl;
+    }
+
+    void displayBackward() {
+        if (head == nullptr) {
+            cout << "List is empty" << endl;
+            return;
+        }
+        Node* temp = head->prev;
+        do {
+            cout << temp->data << " ";
+            temp = temp->prev;
+        } while (temp->next != head->prev);
+        cout << endl;
+    }
+};
+
+int main() {
+    DCLL dcll;
+    int choice, value, element;
+    while (true) {
+        cout << "1. Insert at beginning \n2. Insert at end \n3. Insert before element \n4. Insert after element \n5. Delete first element \n6. Delete last element \n7. Delete specified element \n8. Display forward \n9. Display backward \n10. Find element \n11. Exit\n";
+        cin >> choice;
+        switch (choice) {
+            case 1:
+                cout << "Enter the value to insert at beginning: ";
+                cin >> value;
+                dcll.insertAtBeginning(value);
+                break;
+            case 2:
+                cout << "Enter the value to insert at end: ";
+                cin >> value;
+                dcll.insertAtEnd(value);
+                break;
+            case 3:
+                cout << "Enter the value to insert: ";
+                cin >> value;
+                cout << "Enter the element before which to insert: ";
+                cin >> element;
+                dcll.insertBefore(value, element);
+                break;
+            case 4:
+                cout << "Enter the value to insert: ";
+                cin >> value;
+                cout << "Enter the element after which to insert: ";
+                cin >> element;
+                dcll.insertAfter(value, element);
+                break;
+            case 5:
+                dcll.deleteAtBeginning();
+                break;
+            case 6:
+                dcll.deleteAtEnd();
+                break;
+            case 7:
+                cout << "Enter the value to delete: ";
+                cin >> value;
+                dcll.deleteAtSpecified(value);
+                break;
+            case 8:
+                dcll.displayForward();
+                break;
+            case 9:
+                dcll.displayBackward();
+                break;
+            case 10:
+                cout << "Enter the value to find: ";
+                cin >> value;
+                if (dcll.find(value)) {
+                    cout << "Element found." << endl;
+                } else {
+                    cout << "Element not found." << endl;
+                }
+                break;
+            case 11:
+                return 0;
+        }
+    }
+}

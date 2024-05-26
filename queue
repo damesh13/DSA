@@ -1,0 +1,97 @@
+import java.util.Scanner;
+
+public class Queue {
+    private int[] a;
+    private int front;
+    private int rear;
+    private int size;
+    private int count;
+
+    public Queue(int size) {
+        this.size = size;
+        this.a = new int[size];
+        this.front = 0;
+        this.rear = -1;
+        this.count = 0;
+    }
+
+    public void enqueue(int value) {
+        if (count >= size) {
+            System.out.println("Queue Overflow");
+        } else {
+            rear = (rear + 1) % size;
+            a[rear] = value;
+            count++;
+        }
+    }
+
+    public int dequeue() {
+        if (count == 0) {
+            System.out.println("Queue Underflow");
+            return -1;
+        } else {
+            int value = a[front];
+            front = (front + 1) % size;
+            count--;
+            return value;
+        }
+    }
+
+    public int frontValue() {
+        if (count == 0) {
+            System.out.println("Queue is empty");
+            return -1;
+        } else {
+            return a[front];
+        }
+    }
+
+    public void display() {
+        if (count == 0) {
+            System.out.println("Queue is empty");
+        } else {
+            int i = front;
+            for (int j = 0; j < count; j++) {
+                System.out.print(a[i] + " ");
+                i = (i + 1) % size;
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        System.out.print("Enter the size of the queue: ");
+        int size = s.nextInt();
+        Queue queue = new Queue(size);
+
+        while (true) {
+            System.out.println("\n1. Enqueue\n2. Dequeue\n3. Front\n4. Display\n5. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = s.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter value to enqueue: ");
+                    int value = s.nextInt();
+                    queue.enqueue(value);
+                    break;
+                case 2:
+                    System.out.println("Dequeued: " + queue.dequeue());
+                    break;
+                case 3:
+                    System.out.println("Front: " + queue.frontValue());
+                    break;
+                case 4:
+                    queue.display();
+                    break;
+                case 5:
+                    s.close();
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+}
